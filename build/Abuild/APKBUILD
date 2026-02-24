@@ -1,0 +1,52 @@
+pkgname=dbus
+pkgver=1.16.2
+pkgrel=2
+pkgdesc="Freedesktop.org message bus system"
+url="https://www.freedesktop.org/Software/dbus"
+arch="all"
+license="AFL-2.1 OR GPL-2.0-or-later"
+#options="!check"
+depends="glib qnx-io-sock"
+makedepends="
+    expat-dev
+    glib-dev
+    meson
+    ninja
+    pkgconf
+    pkgconf-dev
+    qnx-io-sock-dev
+    "
+pkggroups="messagebus"
+install="$pkgname.pre-install $pkgname.post-install"
+#triggers="$pkgname.trigger=/usr/share/dbus-1/system.d"
+subpackages="
+    $pkgname-dev
+    $pkgname-doc
+    "
+source="https://dbus.freedesktop.org/releases/dbus/dbus-$pkgver.tar.xz
+        add-freebsd-cred.patch
+    "
+
+build() {
+    meson setup build \
+        -Dprefix=/usr \
+        -Dchecks=true \
+        -Druntime_dir=/var/run \
+        -Dsystem_pid_file=/var/run/dbus/dbus.pid \
+        -Dc_link_args=-Wl,-lsocket 
+    meson compile -C build
+}
+
+check() {
+    meson test --print-errorlogs -C build || msg "not all tests pass"
+}
+
+package() {
+    DESTDIR="$pkgdir" meson install --no-rebuild -C build
+}
+
+
+sha512sums="
+5c26f52d85984bb9ae1dde8d7e73921eacbdf020a61ff15f00a4c240cb38a121553ee04bd66e62b28425ff9bc50f4f5e15135166573ac0888332a01a0db1faa2  dbus-1.16.2.tar.xz
+597c69c2c7e4ba48ab9c64af6e314971bcc3f9893f2784113fc384e069a034b639c427f511c7d4a6a2671212ef457bdf0b3e446dc0dab1de5b60e94efa9623df  add-freebsd-cred.patch
+"

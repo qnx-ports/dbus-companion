@@ -1,0 +1,6 @@
+#!/bin/bash
+
+addgroup -S messagebus
+adduser -S -D -H -h /dev/null -s /bin/nologin -G messagebus -g messagebus messagebus
+
+exit 0
