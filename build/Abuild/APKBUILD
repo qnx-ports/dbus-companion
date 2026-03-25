@@ -1,6 +1,6 @@
 pkgname=dbus
 pkgver=1.16.2
-pkgrel=${pkgrel:-0}
+pkgrel=2
 pkgdesc="Freedesktop.org message bus system"
 url="https://www.freedesktop.org/Software/dbus"
 arch="all"
@@ -46,7 +46,6 @@ package() {
 }
 
 
-options="$options ${DISABLE_CHECK:+!check}"
 sha512sums="
 5c26f52d85984bb9ae1dde8d7e73921eacbdf020a61ff15f00a4c240cb38a121553ee04bd66e62b28425ff9bc50f4f5e15135166573ac0888332a01a0db1faa2  dbus-1.16.2.tar.xz
 597c69c2c7e4ba48ab9c64af6e314971bcc3f9893f2784113fc384e069a034b639c427f511c7d4a6a2671212ef457bdf0b3e446dc0dab1de5b60e94efa9623df  add-freebsd-cred.patch
